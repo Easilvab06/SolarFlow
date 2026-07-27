@@ -1,0 +1,122 @@
+/* style.css
+   ---------------------------------------------------------------------------
+   Base global de SolarFlow. Carga tipografías reales, afina la superficie
+   «papel frío» del cuerpo y define las utilidades de fondo de sala de control.
+   Las @import de fuentes deben ir ANTES de las directivas @tailwind.
+   --------------------------------------------------------------------------- */
+
+/* Display técnico (Space Grotesk) · cuerpo (Inter) · datos (JetBrains Mono) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  color: #0e1a2b;
+  /* Papel frío con tinte navy: sutil viñeta radial para dar profundidad al
+     lienzo sin robar protagonismo al contenido. */
+  background-color: #eef2f9;
+  background-image:
+    radial-gradient(1200px 600px at 78% -10%, rgba(245, 165, 36, 0.06), transparent 60%),
+    radial-gradient(1000px 700px at -10% 0%, rgba(30, 47, 77, 0.06), transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Números tabulares para lecturas de instrumento estables (KPIs, %, fechas). */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Selección de texto acorde a la paleta. */
+::selection {
+  background: rgba(245, 165, 36, 0.28);
+  color: #0e1a2b;
+}
+
+/* Scrollbar discreta acorde a la paleta. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c3cfe2 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #c3cfe2;
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #a6b6d6;
+  background-clip: content-box;
+}
+
+/* Accesibilidad: respeta reduce-motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Foco visible y consistente en toda la app. */
+:focus-visible {
+  outline: 2px solid #f5a524;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   Superficie «sala de control»: degradado navy profundo + retícula fina en
+   UNA sola declaración de background para que no compitan dos background-image
+   (el bug histórico que dejaba las cabeceras en lavanda claro).
+   --------------------------------------------------------------------------- */
+.bg-control {
+  background-color: #0e1a2b;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0),
+    radial-gradient(900px 400px at 85% -20%, rgba(245, 165, 36, 0.12), transparent 60%),
+    linear-gradient(135deg, #0e1a2b 0%, #1e2f4d 52%, #0a1220 100%);
+  background-size: 22px 22px, 100% 100%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat;
+}
+
+/* ---------------------------------------------------------------------------
+   Retícula «plano técnico» tenue sobre el lienzo claro. Se aplican juntas
+   (bg-grid-light bg-grid) en el markup; ambas pintan lo mismo para que el
+   orden nunca provoque el bug de doble background-image.
+   --------------------------------------------------------------------------- */
+.bg-grid,
+.bg-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(30, 47, 77, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 47, 77, 0.045) 1px, transparent 1px);
+  background-size: 26px 26px, 26px 26px;
+}
+
+/* Utilidad de vidrio esmerilado para paneles flotantes (drawer, modales). */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
